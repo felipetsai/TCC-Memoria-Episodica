@@ -14,12 +14,13 @@ def StartPubSub():
 
 #Postar uma mensagem na mensageria
 def SendRestaurant(message,filename):
-    message = "ag"+message
-    print(" Location Detected %r" % message[2:])
+    id = filename[13]
+    message = "ag"+id+message
+    print(id)
+    print(" Location Detected %r" % message[3:])
     channel.basic_publish(exchange='main', routing_key='', body=message,
                 properties=pika.BasicProperties(content_type='text/plain',
                                                           app_id='test',
-                                                          headers={'img': filename},
                                                           timestamp=int(time.time()),
                                                           delivery_mode=1))
     
@@ -41,6 +42,7 @@ def Receive_message():
     channel.start_consuming()
     
 def Main():
+    global id
     global queue_name
     global channel
     channel, connection = StartPubSub()

@@ -21,9 +21,9 @@ def SendQuery(query):
 
 #Converter em query
 def CreateQuery(key):
-    if (key == 1):
-        query = SendQuery("""
-            PREFIX db1: <http://example.com/experimentos-iniciais>
+    if (key == "1"):
+        query = """
+            PREFIX db1: <http://example.com/restaurantes/>
 
             SELECT (SAMPLE(?restaurant) AS ?Restaurant) 
             (COUNT(?restaurant) AS ?Numberofvisits) 
@@ -43,13 +43,16 @@ def CreateQuery(key):
                 }
             GROUP BY ?restaurant
             ORDER BY DESC(?Numberofvisits)
-                    """)["results"]["bindings"]
+                    """
         SendQuery(query)
-
+    else: 
+        print("error")
+        
 #receber intenção do usuário
 def ReceiveIntetion():
     while True:
         key = input()
+        print("input: ", key)
         CreateQuery(key)
 
 def Main():

@@ -9,7 +9,6 @@ import time
 import Constraint 
 
 url = Constraint.DB_Url
-
     
 def StartPubSub():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))

@@ -8,7 +8,8 @@ import json
 import time
 import Constraint 
 
-url = Constraint.DB_Url
+#url = Constraint.DB_Url
+url =  "http://DESKTOP-MIOEQ5T:7200/repositories/memory"
     
 def StartPubSub():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
@@ -18,8 +19,8 @@ def StartPubSub():
     return channel, connection
 
 def SendRestaurants(message):
-    message = "r"+message
-    print(" Restaurant list: %r" % message)
+    message = "r" + str(message)
+    #print(" Restaurant list: %r" % message)
     channel.basic_publish(exchange='main', routing_key='', body=message)
     
 def StopPubSub(connection):
@@ -27,17 +28,13 @@ def StopPubSub(connection):
 
 def SendQuery(ch, method, properties, body):
     data = body.decode('utf-8')
-    sparql.setQuery(data)
-    sparql.method = 'GET'
-    sparql.setReturnFormat('json')
-    sparql.queryType = "SELECT"
-    results = sparql.query()  
-    SendRestaurants(results)
-    
-def DBConnect():
+    print(data)
     sparql = SPARQLWrapper(url)
-    sparql.setHTTPAuth(BASIC)
-    return sparql
+    sparql.setQuery(data)
+    sparql.setReturnFormat(JSON)
+    results = sparql.query().convert()["results"]["bindings"] 
+    print(results)
+    SendRestaurants(results)
 
 def ReceiveQuery():
     print(' [*] Waiting for logs. To exit press CTRL+C')
@@ -53,7 +50,7 @@ def Main():
     result = channel.queue_declare(queue='', exclusive=True)
     queue_name = result.method.queue
     channel.queue_bind(exchange='modulo', queue=queue_name, routing_key='k')
-    sparql = DBConnect
+    #sparql = DBConnection
     ReceiveQuery()
     
 Main()

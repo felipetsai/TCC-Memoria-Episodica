@@ -11,7 +11,10 @@ def StartPubSub():
 
 # Postar uma mensagem na fila
 def SendMessage(message,key):
-    print(" Sending Message to %r" % key)
+    if (key == "a"):
+        print(" Sending Message to queue %r" % key, message[1:])
+    else:
+        print(" Sending Message to queue %r" % key, message)
     channel.basic_publish(exchange='modulo', routing_key= key, body=message)
 
 # Finalizar a mensageria
@@ -21,7 +24,10 @@ def StopPubSub(connection):
 # Identifica a mensagem e encaminha para o modulo correto.
 def Send_message(ch, method, properties, body):
     data = body.decode('utf-8')
-    SendMessage(data[1:],data[0])
+    if(type(data) == list):
+        Send_message(data,"r")
+    else:
+        SendMessage(data[1:],data[0])
 
 # Recebe mensagem.
 def Receive_message():

@@ -130,7 +130,7 @@ def Main():
     
     # print('---------------------------')
     
-    #for result in results["results"]["bindings"]:
+    # for result in results["results"]["bindings"]:
     #    print('%s: %s' % (result["person"]["value"], result["restaurant"]["value"]))
 
 Main()

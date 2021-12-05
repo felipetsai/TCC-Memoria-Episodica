@@ -20,12 +20,12 @@ def LoadFace():
 
 #Postar uma mensagem na mensageria
 def SendPerson(message,filename):
-    message = "ap"+message
+    id = filename[10]
+    message = "ap"+id+message
     print(" Person Detected %r" % message[2:], filename)
     channel.basic_publish(exchange='main', routing_key='', body=message,
                 properties=pika.BasicProperties(content_type='text/plain',
                                                           app_id='test',
-                                                          headers={'img': filename},
                                                           timestamp=int(time.time()),
                                                           delivery_mode=1))
     
@@ -50,6 +50,7 @@ def Receive_Image():
     channel.start_consuming()
 
 def main():
+    global id
     global channel
     global sfr
     global queue_name

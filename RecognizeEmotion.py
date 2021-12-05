@@ -16,12 +16,12 @@ def StartPubSub():
 
 #Postar uma mensagem na mensageria
 def SendMessage(message,filename):
-    message = "ae"+message
-    print(" Emotion Detected: %r" % message[2:] , filename)
+    id = filename[10]
+    message = "ae"+id+message
+    print(" Emotion Detected: %r" % message[3:] , filename)
     channel.basic_publish(exchange='main', routing_key='', body=message,
                 properties=pika.BasicProperties(content_type='text/plain',
                                                           app_id='test',
-                                                          headers={'img': filename},
                                                           timestamp=int(time.time()),
                                                           delivery_mode=1))
     
@@ -45,6 +45,7 @@ def Receive_Image():
     channel.start_consuming()
 
 def Main():
+    global id
     global channel
     global queue_name
     channel, connection = StartPubSub()

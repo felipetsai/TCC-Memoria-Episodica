@@ -21,7 +21,7 @@ def SendRestaurant(message):
 def SelectMemory(ch, method, properties, body):
     data = body.decode('utf-8')
     #seleciona o restaurante
-    SendRestaurant(data[1:])
+    SendRestaurant(data)
 
 # lista de restaurante
 def Receive_message():

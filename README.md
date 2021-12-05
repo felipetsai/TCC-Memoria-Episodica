@@ -72,7 +72,7 @@ Após o término de um átimo ele será inserido no banco
 
 Acionar os módulos responsáveis (*Assistant*, *GetIntention* a *SendResponse*).
 
-Pedir solicitação através do ....... . 
+Pedir solicitação através do terminal no módulo *GetIntention*. 
 
 Uma lista de restaurantes será requisitado do banco. Em seguida selecionado e apresentado ao usuário.
 

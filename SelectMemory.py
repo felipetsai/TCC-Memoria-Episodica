@@ -30,17 +30,30 @@ def SendRestaurant(message):
 # Seleciona o restaurante
 def SelectMemory(ch, method, properties, body):
     data = body.decode('utf-8')
-    list = ast.literal_eval(data)
+    key = data[0]
+    results = data[1:]
+    list = ast.literal_eval(results)
     print(list)
     listRestaurants = []
     for result in list:
         listRestaurants.append(Restaurant(result["Restaurant"]["value"],result["Numberofvisits"]["value"],result["EmotionSum"]["value"],result["LastVisited"]["value"]))
     
-    restaurant = [-1,""]
-    for event in listRestaurants:
-        if int(event.emotion) > restaurant[0]:
-            restaurant[0] = int(event.emotion) 
-            restaurant[1] = event.restaurant
+    restaurant = [-10,""]
+    if(key == "1"):
+        for event in listRestaurants:
+            if int(event.emotion) > restaurant[0]:
+                restaurant[0] = int(event.emotion) 
+                restaurant[1] = event.restaurant
+    elif(key == "2"):
+        for event in listRestaurants:
+            if int(event.lastvisit) > restaurant[0]:
+                restaurant[0] = int(event.lastvisit) 
+                restaurant[1] = event.restaurant
+    else:
+        for event in listRestaurants:
+            if int(event.numberofvisits) > restaurant[0]:
+                restaurant[0] = int(event.numberofvisits) 
+                restaurant[1] = event.restaurant
     
     restaurantSelected = restaurant[1]
     SendRestaurant(restaurantSelected)

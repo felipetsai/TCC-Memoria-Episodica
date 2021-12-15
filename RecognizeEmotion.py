@@ -16,8 +16,9 @@ def StartPubSub():
 
 #Postar uma mensagem na mensageria
 def SendMessage(message,filename):
-    id = filename[10]
-    message = "ae"+id+message
+    idImage = filename[10]
+    idFace = filename[12]
+    message = "ae"+idImage+idFace+message
     print(" Emotion Detected: %r" % message[3:] , filename)
     channel.basic_publish(exchange='main', routing_key='', body=message,
                 properties=pika.BasicProperties(content_type='text/plain',

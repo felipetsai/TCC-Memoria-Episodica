@@ -39,8 +39,10 @@ def RecognizeFace(ch, method, properties, body):
             cv2.rectangle(img, (x, y), (x+w, y+h), (255, 0, 0), 2)
             roi = img[y:y+h, x:x+w]
             img_item = "faces/face" + filename[13] + "_" + str(i) + ".png"
+            img_item_rec = "faces/face_rec" + filename[13] + "_" + str(i) + ".png"
             i += 1
             cv2.imwrite(img_item, roi)
+            cv2.imwrite(img_item_rec, img)
             SendImage(img_item)
     # Caso não encontre rosto na imagem.
     else:

@@ -15,7 +15,7 @@ def StartPubSub():
 #Postar uma mensagem na mensageria
 def SendRestaurant(message,filename):
     id = filename[13]
-    message = "ag"+id+message
+    message = "ag"+id+"-"+message
     print(id)
     print(" Location Detected %r" % message[3:])
     channel.basic_publish(exchange='main', routing_key='', body=message,
@@ -31,7 +31,10 @@ def StopPubSub(connection):
 #função GetCoordinates é chamado assim que receber uma mensagem da fila
 def GetCoordinates(ch, method, properties, body):
     filename = body.decode('utf-8')
-    restaurant = 'outback'
+    if (filename[13] == "0"):
+        restaurant = 'outback'
+    else: 
+        restaurant = 'Subway'
     SendRestaurant(restaurant,filename)
 
 

@@ -12,7 +12,7 @@ def StartPubSub():
 # Postar uma mensagem na fila
 def SendMessage(message,key):
     if (key == "a"):
-        print(" Sending Message to queue %r" % key, message[1:])
+        print(" Sending Message to queue %r" % key, message[3:])
     else:
         print(" Sending Message to queue %r" % key, message)
     channel.basic_publish(exchange='modulo', routing_key= key, body=message)

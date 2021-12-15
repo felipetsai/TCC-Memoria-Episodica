@@ -20,9 +20,10 @@ def LoadFace():
 
 #Postar uma mensagem na mensageria
 def SendPerson(message,filename):
-    id = filename[10]
-    message = "ap"+id+message
-    print(" Person Detected %r" % message[2:], filename)
+    idImage = filename[10]
+    idFace = filename[12]
+    message = "ap"+idImage+idFace+message
+    print(" Person Detected %r" % message[4:], filename)
     channel.basic_publish(exchange='main', routing_key='', body=message,
                 properties=pika.BasicProperties(content_type='text/plain',
                                                           app_id='test',

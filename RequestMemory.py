@@ -10,7 +10,7 @@ import Constraint
 
 #url = Constraint.DB_Url
 url =  "http://DESKTOP-MIOEQ5T:7200/repositories/memory"
-    
+_key = ""
 def StartPubSub():
     connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
     channel = connection.channel()
@@ -19,7 +19,7 @@ def StartPubSub():
     return channel, connection
 
 def SendRestaurants(message):
-    message = "r" + str(message)
+    message = "r" +_key+str(message)
     #print(" Restaurant list: %r" % message)
     channel.basic_publish(exchange='main', routing_key='', body=message)
     
@@ -28,9 +28,11 @@ def StopPubSub(connection):
 
 def SendQuery(ch, method, properties, body):
     data = body.decode('utf-8')
-    print(data)
+    query = data[1:]
+    _key = data[0]
+    #print(data)
     sparql = SPARQLWrapper(url)
-    sparql.setQuery(data)
+    sparql.setQuery(query)
     sparql.setReturnFormat(JSON)
     results = sparql.query().convert()["results"]["bindings"] 
     print(results)
